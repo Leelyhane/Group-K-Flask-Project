@@ -4,7 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask_wtf import FlaskForm
-from wtforms import TextField, PasswordField
+from wtforms import TextField, PasswordField, DateTimeField
 from wtforms.validators import Email, DataRequired
 
 # login and registration
@@ -29,3 +29,18 @@ class CreateAccountForm(FlaskForm):
     password = PasswordField('Password',
                              id='pwd_create',
                              validators=[DataRequired()])
+class JobListings(FlaskForm):
+     job_name = TextField(validators=[DataRequired()])
+     job_type = TextField(validators=[DataRequired()])
+     company =TextField(validators=[DataRequired()])
+     location = TextField(validators=[DataRequired()])
+     description = TextField(validators=[DataRequired()])
+     application_deadline = DateTimeField(validators=[DataRequired()], format='%Y-%m-%dT%H:%M')   
+     
+class JobListings(FlaskForm):
+     job_name = TextField(validators=[DataRequired()])
+     job_type = TextField(validators=[DataRequired()])
+     company =TextField(validators=[DataRequired()])
+     location = TextField(validators=[DataRequired()])
+     description = TextField(validators=[DataRequired()])
+     application_deadline = DateTimeField(validators=[DataRequired()], format='%Y-%m-%dT%H:%M')        

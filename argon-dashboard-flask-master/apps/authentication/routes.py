@@ -13,8 +13,8 @@ from functools import wraps
 
 from apps import db, login_manager
 from apps.authentication import blueprint
-from apps.authentication.forms import LoginForm, CreateAccountForm
-from apps.authentication.models import Users
+from apps.authentication.forms import LoginForm, CreateAccountForm ,JobListings
+from apps.authentication.models import Users, Job_listings
 
 from apps.authentication.util import verify_pass
 
@@ -99,6 +99,33 @@ def logout():
     return redirect(url_for('authentication_blueprint.login'))
 
 
+@blueprint.route('/add-job')
+def add_job():
+# create_job_form = JobListings(request.form)
+ if request.method == "POST":
+         # Get the form data submitted by the admin
+        job_name = request.form['job_name']
+        company_name = request.form['company_name']
+        job_description = request.form['job_description']
+        job_category = request.form['job_category']
+        application_deadline = request.form['application_deadline']
+
+        
+
+        # Insert the job listing details into the database
+        job = Job_listings(**request.form)
+        db.session.add(job)
+        db.session.commit()
+
+        # Redirect to the available jobs page after successful submission
+        return redirect(url_for('available-jobs'))
+
+    # For GET requests, render the add_job.html template with an empty form
+ return render_template('home/add-job.html')
+        
+        
+        
+
 # Errors
 
 @login_manager.unauthorized_handler
@@ -120,11 +147,3 @@ def not_found_error(error):
 def internal_error(error):
     return render_template('home/page-500.html'), 500
 
-def admin_required(view_func):
-    @wraps(view_func)
-    def decorated_view(*args, **kwargs):
-        if not current_user.is_admin:
-            flash('You need admin privileges to access this page.', 'danger')
-            return redirect(url_for('login')) 
-        return view_func(*args, **kwargs)
-    return decorated_view

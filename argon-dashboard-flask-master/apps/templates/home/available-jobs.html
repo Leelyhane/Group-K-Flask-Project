@@ -1,0 +1,45 @@
+{% block title %} Available Job Listings{% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% include "includes/sidenav.html" %}
+
+{% block content %}
+
+<div class="category">
+
+    <label for="Category">Category</label>
+    <select id="options">
+        <option value="Select field of interest"><a href="#">Select field of interest</a></option>
+        <option value="ICT"><a href="#">ICT</a></option>     
+        <option value="Agriculture"><a href="#">Agriculture</a></option>
+        <option value="Engineering"><a href="#">Engineering</a></option>
+        <option value="Architecture"><a href="#">Architecture</a></option>
+        <option value="Medicine"><a href="#">Medicine</a></option>
+        <option value="Economics"><a href="#">Economics</a></option>
+        <option value="Forestry"><a href="#">Forestry</a></option>
+        <option value="social sciences"><a href="#">Social Sciences</a></option>
+    </select>
+  
+</div>
+<div class="available-jobs">
+    <table class="job-table" border="1">
+        <thead id="table-head"> 
+            <tr>
+                <th class="company-name" data-sort="name">COMPANY NAME</th>
+                <th class="Job" data-sort="job">JOB</th>
+                <th class="application" data-sort="apply">APPLICATION</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in database %}
+            <tr>
+                <td> {{ item.company_name}}</td>
+                <td> {{ item.job }}</td>
+                <td>{{ item.application}}</td>
+            </tr>
+            {% end for %}
+        </tbody>
+    </table>
+</div>
