@@ -2,11 +2,10 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-from sqlalchemy import ForeignKeyConstraint
 from flask_login import UserMixin
-from sqlalchemy import ForeignKey
 from apps import db, login_manager
-from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ForeignKey
+from sqlalchemy.orm import relationship
 
 from apps.authentication.util import hash_pass
 
@@ -51,6 +50,7 @@ class Job_listings(db.Model, UserMixin):
     location = db.Column(db.String(64))
     desription = db.Column(db.String(255))
     application_deadline = db.Column(db.DateTime())
+    company_url = db.Column(db.String(255))
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -79,6 +79,7 @@ class Internships(db.Model, UserMixin):
     locaion = db.Column(db.String(64))
     description = db.Column(db.String(255))
     application_deadline = db.Column(db.DateTime())
+    company_url = db.Column(db.String(255))
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -103,6 +104,8 @@ class Job_resumes(db.Model, UserMixin):
     name = db.Column(db.String(64))
     email = db.Column(db.String(64), unique=True)
     resume_file = db.Column(db.LargeBinary)
+    job_id = db.Column(db.Integer, ForeignKey('Job_listings.job_id'))
+    resume = relationship('Job_listings', backref='Job_resumes', lazy=True)
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -125,6 +128,8 @@ class Intern_resumes(db.Model, UserMixin):
     name = db.Column(db.String(64))
     email = db.Column(db.String(64), unique=True)
     resume_file = db.Column(db.LargeBinary)
+    intern_id = db.Column(db.Integer, ForeignKey('Internships.intern_id'))
+    resume = relationship('Internships', backref='intern_resumes', lazy=True)
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
