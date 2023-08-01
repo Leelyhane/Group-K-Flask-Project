@@ -29,18 +29,35 @@ class CreateAccountForm(FlaskForm):
     password = PasswordField('Password',
                              id='pwd_create',
                              validators=[DataRequired()])
+
+
 class JobListings(FlaskForm):
-     job_name = TextField(validators=[DataRequired()])
-     job_type = TextField(validators=[DataRequired()])
-     company =TextField(validators=[DataRequired()])
-     location = TextField(validators=[DataRequired()])
-     description = TextField(validators=[DataRequired()])
-     application_deadline = DateTimeField(validators=[DataRequired()], format='%Y-%m-%dT%H:%M')   
-     
-class JobListings(FlaskForm):
-     job_name = TextField(validators=[DataRequired()])
-     job_type = TextField(validators=[DataRequired()])
-     company =TextField(validators=[DataRequired()])
-     location = TextField(validators=[DataRequired()])
-     description = TextField(validators=[DataRequired()])
-     application_deadline = DateTimeField(validators=[DataRequired()], format='%Y-%m-%dT%H:%M')        
+    job_name = TextField(validators=[DataRequired()])
+    job_type = TextField(validators=[DataRequired()])
+    company = TextField(validators=[DataRequired()])
+    location = TextField(validators=[DataRequired()])
+    description = TextField(validators=[DataRequired()])
+    application_deadline = DateTimeField(
+        validators=[DataRequired()], format='%Y-%m-%dT%H:%M')
+
+
+class Internships(FlaskForm):
+    job_name = TextField(validators=[DataRequired()])
+    job_type = TextField(validators=[DataRequired()])
+    company = TextField(validators=[DataRequired()])
+    location = TextField(validators=[DataRequired()])
+    description = TextField(validators=[DataRequired()])
+    application_deadline = DateTimeField(
+        validators=[DataRequired()], format='%Y-%m-%dT%H:%M')
+
+
+class SubmitJobResume(FlaskForm):
+    name = TextField(validators=[DataRequired()])
+    email = TextField(validators=[DataRequired(), Email()])
+    resume_file = TextField(validators=[DataRequired()])
+
+
+class SubmitInternResume(FlaskForm):
+    name = TextField(validators=[DataRequired()])
+    email = TextField(validators=[DataRequired(), Email()])
+    resume_file = TextField(validators=[DataRequired()])
