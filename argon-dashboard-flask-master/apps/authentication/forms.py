@@ -54,7 +54,8 @@ class Internships(FlaskForm):
 class SubmitJobResume(FlaskForm):
     name = TextField(validators=[DataRequired()])
     email = TextField(validators=[DataRequired(), Email()])
-    resume_file = TextField(validators=[DataRequired()])
+    resume_file = TextField(validators=[DataRequired()
+                                        ])
 
 
 class SubmitInternResume(FlaskForm):

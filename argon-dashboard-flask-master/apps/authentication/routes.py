@@ -3,6 +3,8 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
+from flask import Flask, render_template, request, redirect, url_for
+from forms import SubmitJobResume
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import (
     current_user,
@@ -13,7 +15,7 @@ from functools import wraps
 
 from apps import db, login_manager
 from apps.authentication import blueprint
-from apps.authentication.forms import LoginForm, CreateAccountForm, JobListings
+from apps.authentication.forms import LoginForm, CreateAccountForm, JobListings, Internships, SubmitInternResume, SubmitJobResume
 from apps.authentication.models import Users, Job_listings
 
 from apps.authentication.util import verify_pass
@@ -129,6 +131,72 @@ def add_job():
 
         # For GET requests, render the add_job.html template with an empty form
     return render_template('/home/add-job.html')
+
+
+@blueprint.route('/add-intern', methods=['POST'])
+def add_intern():
+    if request.method == "POST":
+        if 'job_name' in request.form and 'company_name' in request.form and 'job_description' in request.form and 'job_type' in request.form and 'application_deadline' in request.form:
+            # Get the form data submitted by the admin
+            job_name = request.form['job_name']
+            company_name = request.form['company_name']
+            job_description = request.form['job_description']
+            job_category = request.form['job_type']
+            application_deadline = request.form['application_deadline']
+
+            # Convert Date Strings to Python date objects
+            from datetime import datetime
+            deadline = datetime.strptime(
+                application_deadline, '%Y-%m-%d').date()
+
+            # Insert the intern listing details into the database
+            intern = Internships(**request.form)
+            db.session.add(intern)
+            db.session.commit()
+
+            # Redirect to the available internships page after successful submission
+            return redirect(url_for('/home/available-internships.html'))
+
+    # For GET requests, render the add_intern.html template with an empty form
+    return render_template('home/add-intern.html')
+
+
+@blueprint.route('/submit-job-resume', methods=['GET', 'POST'])
+def submit_job_resume():
+    form = SubmitJobResume()
+
+    if form.validate_on_submit():
+        # If the form is successfully submitted and validated, you can process the data here
+        name = form.name.data
+        email = form.email.data
+        resume_file = form.resume_file.data
+
+        # Add your code to process the resume submission here
+
+        # Redirect to a confirmation page after successful submission
+        return redirect(url_for('job_resume_submission_confirmation'))
+
+    # For GET requests or invalid form submissions, render the submit_job_resume.html template with the form
+    return render_template('submit-job-resume.html', form=form)
+
+
+@blueprint.route('/submit-intern-resume', methods=['GET', 'POST'])
+def submit_job_resume():
+    form = SubmitInternResume()
+
+    if form.validate_on_submit():
+        # If the form is successfully submitted and validated, you can process the data here
+        name = form.name.data
+        email = form.email.data
+        resume_file = form.resume_file.data
+
+        # Add your code to process the resume submission here
+
+        # Redirect to a confirmation page after successful submission
+        return redirect(url_for('intern_resume_submission_confirmation'))
+
+    # For GET requests or invalid form submissions, render the submit_job_resume.html template with the form
+    return render_template('submit-intern-resume.html', form=form)
 
 
 # Errors
