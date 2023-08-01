@@ -3,7 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
-from flask import render_template, redirect, request, url_for,flash
+from flask import render_template, redirect, request, url_for, flash
 from flask_login import (
     current_user,
     login_user,
@@ -13,7 +13,7 @@ from functools import wraps
 
 from apps import db, login_manager
 from apps.authentication import blueprint
-from apps.authentication.forms import LoginForm, CreateAccountForm ,JobListings
+from apps.authentication.forms import LoginForm, CreateAccountForm, JobListings
 from apps.authentication.models import Users, Job_listings
 
 from apps.authentication.util import verify_pass
@@ -42,7 +42,10 @@ def login():
         if user and verify_pass(password, user.password):
 
             login_user(user)
-            return redirect(url_for('authentication_blueprint.route_default'))
+            if user.is_admin == True:
+                return render_template('/home/index.html',)
+            else:
+                return render_template('index.html')
 
         # Something (user or pass) is not ok
         return render_template('accounts/login.html',
@@ -101,30 +104,32 @@ def logout():
 
 @blueprint.route('/add-job')
 def add_job():
-# create_job_form = JobListings(request.form)
- if request.method == "POST":
-         # Get the form data submitted by the admin
-        job_name = request.form['job_name']
-        company_name = request.form['company_name']
-        job_description = request.form['job_description']
-        job_category = request.form['job_category']
-        application_deadline = request.form['application_deadline']
+    # create_job_form = JobListings(request.form)
+    if request.method == "POST":
+        if 'job_name' in request.form and 'company_name' in request.form and 'job_description' in request.form and 'job-type' in request.form and 'application_deadline' in request.form:
+            # Get the form data submitted by the admin
+            job_name = request.form['job_name']
+            company_name = request.form['company_name']
+            job_description = request.form['job_description']
+            job_category = request.form['job_type']
+            application_deadline = request.form['application_deadline']
 
-        
+            # Convert Date Strings to Python date objects
+            from datetime import datetime
+            deadline = datetime.strptime(
+                application_deadline, '%Y-%m-%').date()
 
-        # Insert the job listing details into the database
-        job = Job_listings(**request.form)
-        db.session.add(job)
-        db.session.commit()
+            # Insert the job listing details into the database
+            job = Job_listings(**request.form)
+            db.session.add(job)
+            db.session.commit()
 
-        # Redirect to the available jobs page after successful submission
-        return redirect(url_for('available-jobs'))
+            # Redirect to the available jobs page after successful submission
+            return render_template('/home/available-jobs.html')
 
-    # For GET requests, render the add_job.html template with an empty form
- return render_template('home/add-job.html')
-        
-        
-        
+        # For GET requests, render the add_job.html template with an empty form
+    return render_template('/home/add-job.html')
+
 
 # Errors
 
@@ -146,4 +151,3 @@ def not_found_error(error):
 @blueprint.errorhandler(500)
 def internal_error(error):
     return render_template('home/page-500.html'), 500
-
