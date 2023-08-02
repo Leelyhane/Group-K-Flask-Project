@@ -41,7 +41,7 @@ def login():
             if user.is_admin == True:
                 return render_template('/home/index.html',)
             else:
-                return render_template('index.html')
+                return render_template('/user/index.html')
 
         # Something (user or pass) is not ok
         return render_template('accounts/login.html',
