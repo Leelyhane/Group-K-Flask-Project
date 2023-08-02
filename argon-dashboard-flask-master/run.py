@@ -1,8 +1,6 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
 
+# from flask import Flask, jsonify
 from flask_migrate import Migrate
 from sys import exit
 from decouple import config
