@@ -14,7 +14,7 @@ from apps.authentication.models import Users, Job_listings, Internships, Job_res
 
 from apps.authentication.util import verify_pass
 
-"""
+
 @blueprint.route('/')
 def route_default():
     return redirect(url_for('authentication_blueprint.login'))
@@ -246,9 +246,9 @@ def not_found_error(error):
 @blueprint.errorhandler(500)
 def internal_error(error):
     return render_template('home/page-500.html'), 500
-<<<<<<< HEAD
+#<<<<<<< HEAD
 
- """
+"""
 
 from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -335,3 +335,4 @@ def logout():
 
 if __name__ == '__main__':
     app.run(debug=True)
+"""
