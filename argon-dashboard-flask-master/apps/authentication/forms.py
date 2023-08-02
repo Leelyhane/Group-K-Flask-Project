@@ -4,8 +4,9 @@ Copyright (c) 2019 - present AppSeed.us
 """
 
 from flask_wtf import FlaskForm
-from wtforms import TextField, PasswordField, DateTimeField
-from wtforms.validators import Email, DataRequired
+from wtforms import TextField, PasswordField, DateTimeField, TextAreaField, StringField
+from wtforms.validators import Email, DataRequired, URL
+from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 # login and registration
 
@@ -29,18 +30,59 @@ class CreateAccountForm(FlaskForm):
     password = PasswordField('Password',
                              id='pwd_create',
                              validators=[DataRequired()])
+
+
 class JobListings(FlaskForm):
-     job_name = TextField(validators=[DataRequired()])
-     job_type = TextField(validators=[DataRequired()])
-     company =TextField(validators=[DataRequired()])
-     location = TextField(validators=[DataRequired()])
-     description = TextField(validators=[DataRequired()])
-     application_deadline = DateTimeField(validators=[DataRequired()], format='%Y-%m-%dT%H:%M')   
-     
-class JobListings(FlaskForm):
-     job_name = TextField(validators=[DataRequired()])
-     job_type = TextField(validators=[DataRequired()])
-     company =TextField(validators=[DataRequired()])
-     location = TextField(validators=[DataRequired()])
-     description = TextField(validators=[DataRequired()])
-     application_deadline = DateTimeField(validators=[DataRequired()], format='%Y-%m-%dT%H:%M')        
+    job_name = TextField(validators=[DataRequired()])
+    job_category = TextField(validators=[DataRequired()])
+    company = TextField(validators=[DataRequired()])
+    company_logo = FileField(validators=[
+        FileRequired(),  # Ensure a file is uploaded
+        # Limit allowed file types
+        FileAllowed(['jpg', 'png', 'jpeg', 'gif'], 'Images only!')
+        # Add more validators based on your specific criteria (e.g., FileSize, Dimensions, AspectRatio)
+    ])
+    location = TextField(validators=[DataRequired()])
+    # URL validator for company URL
+    company_url = StringField(validators=[DataRequired(), URL()])
+    job_description = TextAreaField(validators=[DataRequired()], render_kw={
+        "class": "description"})  # Use TextAreaField for description
+    application_deadline = DateTimeField(
+        validators=[DataRequired()], format='%Y-%m-%dT%H:%M')
+
+
+class Internships(FlaskForm):
+    intern_name = TextField(validators=[DataRequired()])
+    job_category = TextField(validators=[DataRequired()])
+    company = TextField(validators=[DataRequired()])
+    company_logo = FileField(validators=[
+        FileRequired(),  # Ensure a file is uploaded
+        # Limit allowed file types
+        FileAllowed(['jpg', 'png', 'jpeg', 'gif'], 'Images only!')
+        # Add more validators based on your specific criteria (e.g., FileSize, Dimensions, AspectRatio)
+    ])
+    location = TextField(validators=[DataRequired()])
+    # URL validator for company URL
+    company_url = StringField(validators=[DataRequired(), URL()])
+    internship_description = TextAreaField(validators=[DataRequired()], render_kw={
+        "class": "description"})  # Use TextAreaField for description
+    application_deadline = DateTimeField(
+        validators=[DataRequired()], format='%Y-%m-%dT%H:%M')
+
+
+class SubmitJobResume(FlaskForm):
+    name = TextField(validators=[DataRequired()])
+    email = TextField(validators=[DataRequired(), Email()])
+    resume_file = FileField(validators=[
+        FileRequired(),
+        FileAllowed(['pdf'], 'Only PDF files are allowed!')
+    ])
+
+
+class SubmitInternResume(FlaskForm):
+    name = TextField(validators=[DataRequired()])
+    email = TextField(validators=[DataRequired(), Email()])
+    resume_file = FileField(validators=[
+        FileRequired(),
+        FileAllowed(['pdf'], 'Only PDF files are allowed!')
+    ])

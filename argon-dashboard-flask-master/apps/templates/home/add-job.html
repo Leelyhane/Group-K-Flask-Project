@@ -24,6 +24,8 @@
   </div>
 </div>
 <!-- Page content -->
+<div class="container-fluid mt--6">
+  <div class="row justify-content-center">
     <div class="col-xl-8 order-xl-1">
       <div class="card">
         <div class="card-header">
@@ -37,20 +39,21 @@
           </div>
         </div>
         <div class="card-body">
-          <form>
+          <form method="post" action="{{ url_for('add-job') }}" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
             <h6 class="heading-small text-muted mb-4">Job information</h6>
             <div class="pl-lg-4">
               <div class="row">
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-username">Job Category</label>
-                    <input type="text" id="input-username" class="form-control" placeholder="Username" value="{{ current_user.username }}">
+                    <label class="form-control-label" for="job_category">Job Category</label>
+                    <input type="text" id="job_category" name="job_category" class="form-control" placeholder="Job Category" value="{{ form.job_category.data }}">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-email">Job Name</label>
-                    <input type="email" id="input-email" class="form-control" placeholder="{{ current_user.email }}">
+                    <label class="form-control-label" for="job_name">Job Name</label>
+                    <input type="text" id="job_name" name="job_name" class="form-control" placeholder="Job Name" value="{{ form.job_name.data }}">
                   </div>
                 </div>
               </div>
@@ -62,22 +65,25 @@
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-address">Address/Location</label>
-                    <input id="input-address" class="form-control" placeholder="Home Address" value="Bld Mihail Kogalniceanu, nr. 8 Bl 1, Sc 1, Ap 09" type="text">
+                    <label class="form-control-label" for="location">Address/Location</label>
+                    <input id="location" name="location" class="form-control" placeholder="Location" value="{{ form.location.data }}" type="text">
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-4">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-country">Organization/ Company Name</label>
-                    <input type="text" id="input-country" class="form-control" placeholder="Country" value="United States">
+                    <label class="form-control-label" for="company_name">Organization/ Company Name</label>
+                    <input type="text" id="company_name" name="company_name" class="form-control" placeholder="Organization/Company Name" value="{{ form.company_name.data }}">
                   </div>
                 </div>
-                <div class="col-lg-4">
+              </div>
+              <!-- Add a field for company_logo (image file upload) -->
+              <div class="row">
+                <div class="col-lg-6">
                   <div class="form-group">
-                    <label class="form-control-label" for="input-country">Company Contact</label>
-                    <input type="number" id="input-postal-code" class="form-control" placeholder="Postal code">
+                    <label class="form-control-label" for="company_logo">Company Logo</label>
+                    <input type="file" id="company_logo" name="company_logo" class="form-control">
                   </div>
                 </div>
               </div>
@@ -87,18 +93,20 @@
             <h6 class="heading-small text-muted mb-4">Job Description (Include the Prerequisites/ Requirements one must have and Include in the resume submission!)</h6>
             <div class="pl-lg-4">
               <div class="form-group">
-                <textarea rows="4" class="form-control" placeholder="A few words about you ...">Description</textarea>
+                <textarea rows="4" class="form-control description" name="job_description" placeholder="Job Description">{{ form.job_description.data }}</textarea>
               </div>
+            </div>
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary">Add</button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </div>
-
-  {% include "includes/footer.html" %}
-
 </div>
+
+{% include "includes/footer.html" %}
 
 {% endblock content %}
 
