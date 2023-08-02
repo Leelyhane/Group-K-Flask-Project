@@ -1,8 +1,3 @@
-# -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
-
 from flask import Flask, render_template, request, redirect, url_for
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import (
@@ -19,7 +14,7 @@ from apps.authentication.models import Users, Job_listings, Internships, Job_res
 
 from apps.authentication.util import verify_pass
 
-
+"""
 @blueprint.route('/')
 def route_default():
     return redirect(url_for('authentication_blueprint.login'))
@@ -251,3 +246,92 @@ def not_found_error(error):
 @blueprint.errorhandler(500)
 def internal_error(error):
     return render_template('home/page-500.html'), 500
+<<<<<<< HEAD
+
+ """
+
+from flask import Flask, render_template, redirect, url_for, request, flash
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+
+app = Flask(__name__)
+app.secret_key = 'your_secret_key'
+
+# Simulated User and Admin database
+users = {
+    'user1': {'username': 'user1', 'password': 'password1', 'is_admin': False},
+    'user2': {'username': 'user2', 'password': 'password2', 'is_admin': False},
+    'admin': {'username': 'admin', 'password': 'adminpassword', 'is_admin': True},
+}
+
+# User class for Flask-Login
+
+
+class User(UserMixin):
+    def __init__(self, user_id):
+        self.id = user_id
+        self.username = users[user_id]['username']
+        self.password = users[user_id]['password']
+        self.is_admin = users[user_id]['is_admin']
+
+# Function to load user from the database
+
+
+def load_user(user_id):
+    return User(user_id)
+
+
+# Flask-Login setup
+login_manager = LoginManager(app)
+login_manager.login_view = 'login'
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    return load_user(user_id)
+
+# Route for login page
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+
+        user = next((u for u in users.values(
+        ) if u['username'] == username and u['password'] == password), None)
+
+        if user:
+            user_id = username
+            remember = request.form.get('remember', False)
+            user_obj = load_user(user_id)
+            login_user(user_obj, remember=remember)
+            return redirect(url_for('dashboard'))
+        else:
+            flash('Invalid username or password', 'error')
+
+    return render_template('login.html')
+
+# Route for dashboard (requires login)
+
+
+@app.route('/dashboard')
+@login_required
+def dashboard():
+    if current_user.is_admin:
+        return render_template('admin_dashboard.html')
+    else:
+        return render_template('user_dashboard.html')
+
+# Route for logout
+
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
