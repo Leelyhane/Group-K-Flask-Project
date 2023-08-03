@@ -7,13 +7,15 @@ from apps.user_bp import blueprint
 from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
+from apps.authentication.models import Users, Job_listings, Internships, Job_resumes, Intern_resumes
 
 
 @blueprint.route('/indexx')
-@login_required
-def index():
-
-    return render_template('user/indexx.html', segment='index')
+def indexx():
+    # Retrieve job listings from the database
+    job_listings = Job_listings.query.all()
+    print(job_listings)
+    return render_template('/user/indexx.html', jobListings=job_listings)
 
 
 @blueprint.route('/<template>')

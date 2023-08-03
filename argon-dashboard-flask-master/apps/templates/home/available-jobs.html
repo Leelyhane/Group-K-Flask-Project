@@ -1,4 +1,6 @@
-{% block title %} Available Job Listings{% endblock title %}
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
 
 <!-- Specific CSS goes HERE -->
 {% block stylesheets %}{% endblock stylesheets %}
@@ -7,39 +9,79 @@
 
 {% block content %}
 
-<div class="category">
-
-    <label for="Category">Category</label>
-    <select id="options">
-        <option value="Select field of interest"><a href="#">Select field of interest</a></option>
-        <option value="ICT"><a href="#">ICT</a></option>     
-        <option value="Agriculture"><a href="#">Agriculture</a></option>
-        <option value="Engineering"><a href="#">Engineering</a></option>
-        <option value="Architecture"><a href="#">Architecture</a></option>
-        <option value="Medicine"><a href="#">Medicine</a></option>
-        <option value="Economics"><a href="#">Economics</a></option>
-        <option value="Forestry"><a href="#">Forestry</a></option>
-        <option value="social sciences"><a href="#">Social Sciences</a></option>
-    </select>
-  
-</div>
-<div class="available-jobs">
-    <table class="job-table" border="1">
-        <thead id="table-head"> 
-            <tr>
-                <th class="company-name" data-sort="name">COMPANY NAME</th>
-                <th class="Job" data-sort="job">JOB</th>
-                <th class="application" data-sort="apply">APPLICATION</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in database %}
-            <tr>
-                <td> {{ item.company_name}}</td>
-                <td> {{ item.job }}</td>
-                <td>{{ item.application}}</td>
-            </tr>
-            {% end for %}
-        </tbody>
+<div class="card">
+  <!-- Card header -->
+  <div class="card-header border-0">
+    <h3 class="mb-0">Available Jobs</h3>
+  </div>
+  <!-- Light table -->
+  <div class="table-responsive">
+    <table class="table align-items-center table-flush">
+       <thead class="thead-light">
+        
+        <tr>
+          <th scope="col" class="sort" data-sort="name">{{field[0]}}</th>
+          <th scope="col" class="sort" data-sort="budget">{{field[1]}}</th>
+          <th scope="col" class="sort" data-sort="status">{{field[2]}}</th>
+          <th scope="col">{{field[3]}}</th>
+          <th scope="col" class="sort" data-sort="completion">{{field[4]}}</th>
+          <th scope="col"></th>
+        </tr>
+        
+      </thead>
+      <tbody class="list">
+        {% for item in job_listings %}
+        <tr>
+          <th scope="row">
+            <div class="media align-items-center">
+              <a href="#" class="avatar rounded-circle mr-3">
+                <img alt="Image placeholder" src="{{ item.company_logo}}">
+              </a>
+              <div class="media-body">
+                <span class="name mb-0 text-sm">{{item.company}}</span>
+              </div>
+            </div>
+          </th>
+          <td class="budget">
+            {{item.job_name}}
+          </td>
+          <td>
+            <span class="badge badge-dot mr-4">
+              <i class="bg-warning"></i>
+              <span class="status">{{item.job_type}}</span>
+            </span>
+          </td>
+          <td>
+            <div class="media-body">
+                <span class="name mb-0 text-sm">{{item.application_deadline}}</span>
+              </div>
+          </td>
+          <td class="text-right">
+            <div class="dropdown">
+              <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                <a class="dropdown-item" href="#">Edit</a>
+                <a class="dropdown-item" href="#">Remove</a>
+                 </div>
+            </div>
+          </td>
+        </tr>
+              {% endfor%}
+            </div>
+          </td>
+        </tr>
+      </tbody>
     </table>
+   </div>
 </div>
+</div>
+
+
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}

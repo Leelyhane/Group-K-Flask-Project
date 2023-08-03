@@ -1,0 +1,87 @@
+{% extends 'layouts/base.html' %}
+
+{% block title %} Dashboard {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% include "includes/sidenav.html" %}
+
+{% block content %}
+
+<div class="card">
+  <!-- Card header -->
+  <div class="card-header border-0">
+    <h3 class="mb-0">Available Internships</h3>
+  </div>
+  <!-- Light table -->
+  <div class="table-responsive">
+    <table class="table align-items-center table-flush">
+       <thead class="thead-light">
+        
+        <tr>
+          <th scope="col" class="sort" data-sort="name">{{field[0]}}</th>
+          <th scope="col" class="sort" data-sort="budget">{{field[1]}}</th>
+          <th scope="col" class="sort" data-sort="status">{{field[2]}}</th>
+          <th scope="col">{{field[3]}}</th>
+          <th scope="col" class="sort" data-sort="completion">{{field[4]}}</th>
+          <th scope="col"></th>
+        </tr>
+        
+      </thead>
+      <tbody class="list">
+        {% for item in internships %}
+        <tr>
+          <th scope="row">
+            <div class="media align-items-center">
+              <a href="#" class="avatar rounded-circle mr-3">
+                <img alt="Image placeholder" src="{{ item.company_logo}}">
+              </a>
+              <div class="media-body">
+                <span class="name mb-0 text-sm">{{item.intern_name}}</span>
+              </div>
+            </div>
+          </th>
+          <td class="budget">
+            {{item.company}}
+          </td>
+          <td>
+            <span class="badge badge-dot mr-4">
+              <i class="bg-warning"></i>
+              <span class="status">{{item.job_type}}</span>
+            </span>
+          </td>
+          <td>
+            <div class="media-body">
+                <span class="name mb-0 text-sm">{{item.application_deadline}}</span>
+              </div>
+          </td>
+          <td class="text-right">
+            <div class="dropdown">
+              <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-ellipsis-v"></i>
+              </a>
+              <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                <a class="dropdown-item" href="#">Edit</a>
+                <a class="dropdown-item" href="#">Remove</a>
+                 </div>
+            </div>
+          </td>
+        </tr>
+              {% endfor%}
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+   </div>
+</div>
+</div>
+
+
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE --> 
+{% block javascripts %}{% endblock javascripts %}
