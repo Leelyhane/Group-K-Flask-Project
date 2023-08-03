@@ -39,7 +39,7 @@ def login():
             login_user(user)
 
             if user.is_admin:
-                return redirect(url_for('home_blueprint.index'))
+                return redirect(url_for('home_blueprint.available-jobs'))
             else:
                 return redirect(url_for('user_blueprint.index1'))
 
@@ -54,7 +54,7 @@ def login():
     if current_user.is_admin:
         return redirect(url_for('home_blueprint.index'))
     else:
-        return redirect(url_for('user_blueprint.indexx'))
+        return redirect(url_for('user_blueprint.index1'))
 
 # Helper - Verify password securely (implement the appropriate function for password verification)
 
