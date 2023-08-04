@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form method="post" action="{{ url_for('authentication_blueprint.add-job') }}" enctype="multipart/form-data">
+          <form method="post" role="form" action="/add-job" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <h6 class="heading-small text-muted mb-4">Job information</h6>
             <div class="pl-lg-4">
@@ -46,13 +46,13 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="job_category">Job Category</label>
-                    <input type="text" id="job_category" name="job_category" class="form-control" placeholder="Job Category" value="{{ form.job_category.data }}">
+                    <input type="text" id="job_category" name="job_category" class="form-control" placeholder="Job Category">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="job_name">Job Name</label>
-                    <input type="text" id="job_name" name="job_name" class="form-control" placeholder="Job Name" value="{{ form.job_name.data }}">
+                    <input type="text" id="job_name" name="job_name" class="form-control" placeholder="Job Name">
                   </div>
                 </div>
               </div>
@@ -65,7 +65,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="form-control-label" for="location">Address/Location</label>
-                    <input id="location" name="location" class="form-control" placeholder="Location" value="{{ form.location.data }}" type="text">
+                    <input id="location" name="location" class="form-control" placeholder="Location" type="text">
                   </div>
                 </div>
               </div>
@@ -73,7 +73,7 @@
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="company_name">Organization/ Company Name</label>
-                    <input type="text" id="company_name" name="company_name" class="form-control" placeholder="Organization/Company Name" value="{{ form.company_name.data }}">
+                    <input type="text" id="company" name="company" class="form-control" placeholder="Organization/Company Name">
                   </div>
                 </div>
               </div>
@@ -86,13 +86,25 @@
                   </div>
                 </div>
               </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="job_category">Company URL</label>
+                  <input type="url" id="company_url" name="company_url" class="form-control" placeholder="Company Website Link">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="job_category">Application Deadline</label>
+                  <input type="datetime-local" id="application_deadline" name="application_deadline" class="form-control" placeholder="Deadline">
+                </div>
+              </div>
             </div>
             <hr class="my-4" />
             <!-- Description -->
             <h6 class="heading-small text-muted mb-4">Job Description (Include the Prerequisites/ Requirements one must have and Include in the resume submission!)</h6>
             <div class="pl-lg-4">
               <div class="form-group">
-                <textarea rows="4" class="form-control description" name="job_description" placeholder="Job Description">{{ form.job_description.data }}</textarea>
+                <textarea rows="4" class="form-control description" name="description" placeholder="Job Description">{{ form.description }}</textarea>
               </div>
             </div>
             <div class="text-center">

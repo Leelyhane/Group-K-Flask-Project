@@ -38,7 +38,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form method="post" action="{{ url_for('authentication_blueprint.add-intern') }}" enctype="multipart/form-data">
+          <form method="post" role ="form" action="/add-intern" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <h6 class="heading-small text-muted mb-4">Internship information</h6>
             <div class="pl-lg-4">
@@ -46,13 +46,13 @@
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="internship_category">Internship Category</label>
-                    <input type="text" id="internship_category" name="internship_category" class="form-control" placeholder="Internship Category" value="{{ form.job_category.data }}">
+                    <input type="text" id="job_category" name="job_category" class="form-control" placeholder="Internship Category">
                   </div>
                 </div>
                 <div class="col-lg-6">
                   <div class="form-group">
                     <label class="form-control-label" for="internship_program">Internship Program</label>
-                    <input type="text" id="internship_program" name="internship_program" class="form-control" placeholder="Internship Program" value="{{ form.internship_name.data }}">
+                    <input type="text" id="intern_name" name="intern_name" class="form-control" placeholder="Internship Program">
                   </div>
                 </div>
               </div>
@@ -65,7 +65,7 @@
                 <div class="col-md-12">
                   <div class="form-group">
                     <label class="form-control-label" for="location">Address/Location</label>
-                    <input id="location" name="location" class="form-control" placeholder="Home Address" value="{{ form.location.data }}" type="text">
+                    <input id="location" name="location" class="form-control" placeholder="Address" type="text">
                   </div>
                 </div>
               </div>
@@ -73,7 +73,7 @@
                 <div class="col-lg-4">
                   <div class="form-group">
                     <label class="form-control-label" for="company_name">Organization/ Company Name</label>
-                    <input type="text" id="company_name" name="company_name" class="form-control" placeholder="Organization/Company Name" value="{{ form.company.data }}">
+                    <input type="text" id="company" name="company" class="form-control" placeholder="Organization/Company Name">
                   </div>
                 </div>
               </div>
@@ -84,6 +84,18 @@
                     <label class="form-control-label" for="company_logo">Company Logo</label>
                     <input type="file" id="company_logo" name="company_logo" class="form-control">
                   </div>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="job_category">Company URL</label>
+                  <input type="url" id="company_url" name="company_url" class="form-control" placeholder="Company Website Link">
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="form-group">
+                  <label class="form-control-label" for="job_category">Application Deadline</label>
+                  <input type="datetime-local" id="application_deadline" name="application_deadline" class="form-control" placeholder="Deadline">
                 </div>
               </div>
             </div>

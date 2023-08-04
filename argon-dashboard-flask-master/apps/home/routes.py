@@ -15,43 +15,47 @@ from apps.authentication.models import Users, Job_listings, Internships, Job_res
 def index():
     field = ["COMPANY", "JOB", "CATEGORY", "DEADLINE"]
     job_listings = Job_listings.query.all()
-    return render_template('home/available-jobs.html', segment='index', field=field, job_listings=job_listings)
+    return render_template('home/available-jobs.html', segment='available-jobs', field=field, job_listings=job_listings)
 
 
-@blueprint.route('/add-intern')
-@login_required
-def intern():
-    return render_template('home/add-intern.html', segment='index')
+# @blueprint.route('/add-intern')
+# @login_required
+# def intern():
+#     segment = 'add-intern'
+#     return render_template('home/add-intern.html', segment=segment)
 
 
-@blueprint.route('/add-job')
-@login_required
-def job():
-    return render_template('home/add-job.html', segment='index')
+# @blueprint.route('/add-job')
+# @login_required
+# def job():
+#     segment = 'add-job'
+#     return render_template('home/add-job.html', segment=segment)
 
 
 @blueprint.route('/available-internships')
 @login_required
 def intern_available():
-    fields = ["COMPANY", "JOB", "CATEGORY", "DEADLINE"]
+    fields = ["COMPANY", "INTERNSIP", "CATEGORY", "DEADLINE"]
+    segment = 'available-internships'
     internships = Internships.query.all()
-    return render_template('home/available-internships.html', segment='index', internships=internships, field=fields)
+    return render_template('home/available-internships.html', segment=segment, internships=internships, field=fields)
 
 
 @blueprint.route('/job-resumes')
 @login_required
 def job_resume():
-    fields = ["JOB_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
+    field = ["JOB_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
     job_resume = Job_resumes.query.all()
-    return render_template('home/job-resumes.html', segment='index', job_resume=job_resume, fields=fields)
+    segment = 'job-resumes'
+    return render_template('home/job-resumes.html', segment=segment, job_resume=job_resume, fields=field)
 
 
 @blueprint.route('/intern-resumes')
 @login_required
 def intern_resume():
-    fields = ["JOB_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
+    columns = ["JOB_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
     intern_resume = Intern_resumes.query.all()
-    return render_template('home/intern-resumes.html', segment='index', intern_resume=intern_resume, fields=fields)
+    return render_template('home/intern-resumes.html', segment='intern-resumes', intern_resume=intern_resume, fields=columns)
 
 
 @blueprint.route('/<template>')
@@ -80,7 +84,7 @@ def get_segment(request):
         segment = request.path.split('/')[-1]
 
         if segment == '':
-            segment = 'index'
+            segment = 'available-jobs'
 
         return segment
 
