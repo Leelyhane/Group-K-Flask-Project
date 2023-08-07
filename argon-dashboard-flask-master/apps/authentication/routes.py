@@ -189,10 +189,10 @@ def add_intern():
 
             # Insert the job listing details into the database
         internship = Internships(
-            job_name=intern_name,
+            intern_name=intern_name,
             company=company_name,
-            desription=internship_description,
-            location=location,
+            description=internship_description,
+            locaion=location,
             job_type=job_category,
             application_deadline=deadline,
             company_logo=company_logo.read() if company_logo else None,
