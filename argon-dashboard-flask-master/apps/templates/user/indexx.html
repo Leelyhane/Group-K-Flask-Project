@@ -43,7 +43,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5">
         <a href="/indexx" class="navbar-brand d-flex align-items-center">
-            <h1 class="m-0"><img class="img-fluid me-3" src="static/user/img/icon/icon-02-primary.png" alt="">Career Bridge</h1>
+            <h1 class="m-0"><img class="img-fluid me-3" src="static/user/img/career2.png" alt="">Career Bridge</h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -168,55 +168,23 @@
                 <h1 class="display-6 mb-5">Available Jobs</h1>
             </div>
             <div class="row g-4 justify-content-center">
+                {%for job in jobListings%} 
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                   
                     <div class="service-item rounded h-100 p-5">
-                        {%for job in JobListings%}
                         <div class="d-flex align-items-center ms-n5 mb-4">
+                            
                             <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
                                 <img class="img-fluid" src="{{job.company_logo}}" alt="">
                             </div>
-                            <h4 class="mb-0">{{job}}</h4>
+                            <h4 class="mb-0">{{job.job_name}}</h4>
                         </div>
                         <p class="mb-4">{{job.company}}</p>
-                        <a class="btn btn-light px-3" href="{{ url_for('authentication_blueprint.login') }}">Read More</a>
-                        {% endfor %}
+                        <a class="btn btn-light px-3" href="/sign_in">Read More</a>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="service-item rounded h-100 p-5">
-                        <div class="d-flex align-items-center ms-n5 mb-4">
-                            <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
-                                <img class="img-fluid" src="static/user/img/icon/icon-01-light.png" alt="">
-                            </div>
-                            <h4 class="mb-0">Health Insurance</h4>
-                        </div>
-                        <p class="mb-4">Aliqu diam amet eos erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                        <a class="btn btn-light px-3" href="">Read More</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="service-item rounded h-100 p-5">
-                        <div class="d-flex align-items-center ms-n5 mb-4">
-                            <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
-                                <img class="img-fluid" src="static/user/img/icon/icon-05-light.png" alt="">
-                            </div>
-                            <h4 class="mb-0">Home Insurance</h4>
-                        </div>
-                        <p class="mb-4">Aliqu diam amet eos erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                        <a class="btn btn-light px-3" href="">Read More</a>
-                    </div>
-                </div>
-
-                
-                
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     
-                    
-                        
-                       <!-- <a class="btn btn-light px-3" href="">Read More</a>-->
-                    
-                </div>
-                
+                 </div>
+                 {% endfor %}
             </div>
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     
@@ -239,42 +207,21 @@
                 <h1 class="display-6 mb-5">Internships</h1>
             </div>
             <div class="row g-4 justify-content-center">
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                {%for intern in internships%}
+                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     <div class="service-item rounded h-100 p-5">
                         <div class="d-flex align-items-center ms-n5 mb-4">
                             <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
-                                <img class="img-fluid" src="static/user/img/icon/icon-10-light.png" alt="">
+                                <img class="img-fluid" src="{{intern.company_logo}}" alt="">
                             </div>
-                            <h4 class="mb-0">Life Insurance</h4>
+                            <h4 class="mb-0">{{intern.intern_name}}</h4>
                         </div>
-                        <p class="mb-4">Aliqu diam amet eos erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                        <a class="btn btn-light px-3" href="">Read More</a>
+                        <p class="mb-4">{{intern.company}}</p>
+                        <a class="btn btn-light px-3" href="/sign_in">Read More</a>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.3s">
-                    <div class="service-item rounded h-100 p-5">
-                        <div class="d-flex align-items-center ms-n5 mb-4">
-                            <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
-                                <img class="img-fluid" src="static/user/img/icon/icon-01-light.png" alt="">
-                            </div>
-                            <h4 class="mb-0">Health Insurance</h4>
-                        </div>
-                        <p class="mb-4">Aliqu diam amet eos erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                        <a class="btn btn-light px-3" href="">Read More</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.5s">
-                    <div class="service-item rounded h-100 p-5">
-                        <div class="d-flex align-items-center ms-n5 mb-4">
-                            <div class="service-icon flex-shrink-0 bg-primary rounded-end me-4">
-                                <img class="img-fluid" src="static/user/img/icon/icon-05-light.png" alt="">
-                            </div>
-                            <h4 class="mb-0">Home Insurance</h4>
-                        </div>
-                        <p class="mb-4">Aliqu diam amet eos erat ipsum et lorem et sit, sed stet lorem sit clita duo justo erat amet</p>
-                        <a class="btn btn-light px-3" href="">Read More</a>
-                    </div>
-                </div>
+                  </div>
+                {% endfor %}
+                
                 <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                     
                 </div>
@@ -302,11 +249,11 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                        &copy; <a href="#">Your Site Name</a>, All Right Reserved.
+                        &copy; <a href="#">Career Builder</a>, All Right Reserved.
                     </div>
                     <div class="col-md-6 text-center text-md-end">
                         <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a href="https://htmlcodex.com">HTML Codex</a>
+                        Designed By <a href="https://htmlcodex.com">Career Builder</a>
                     </div>
                 </div>
             </div>

@@ -9,15 +9,15 @@ from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
 from apps.authentication.forms import LoginForm
-from apps.authentication.models import Users, Job_listings, Internships, Job_resumes, Intern_resumes
+from apps.authentication.models import Job_listings, Internships
 
 
-@blueprint.route('/indexx')
-def indexx():
-    # Retrieve job listings from the database
-    job_listings = Job_listings.query.all()
-    print(job_listings)
-    return render_template('/user/indexx.html', jobListings=job_listings)
+# @blueprint.route('/indexx')
+# def indexx():
+#     # Retrieve job listings from the database
+#     job_listings = Job_listings.query.all()
+#     print(job_listings)
+#     return render_template('/user/indexx.html', jobListings=job_listings)
 
 
 @blueprint.route('/sign_in', methods=['GET', 'POST'])
@@ -27,31 +27,31 @@ def sign_in():
     return render_template('/accounts/login.html', form=form)
 
 
-@blueprint.route('/index1')
-@login_required
-def index1():
-    # Retrieve job listings from the database
-    job_listings = Job_listings.query.all()
-    print(job_listings)
-    return render_template('/user/index1.html', jobListings=job_listings)
+# @blueprint.route('/index1')
+# @login_required
+# def index1():
+#     # Retrieve job listings from the database
+#     job_listings = Job_listings.query.all()
+#     print(job_listings)
+#     return render_template('/user/index1.html', jobListings=job_listings)
 
 
-@blueprint.route('/internships')
-@login_required
-def internship():
-    # Retrieve job listings from the database
-    internships = Internships.query.all()
-    print(internships)
-    return render_template('/user/internships.html', internships=internships)
+# @blueprint.route('/internships')
+# @login_required
+# def internship():
+#     # Retrieve job listings from the database
+#     internships = Internships.query.all()
+#     print(internships)
+#     return render_template('/user/internships.html', internships=internships)
 
 
-@blueprint.route('/jobs')
-@login_required
-def job():
-    # Retrieve job listings from the database
-    job_listings = Job_listings.query.all()
-    print(job_listings)
-    return render_template('/user/jobs.html', jobListings=job_listings)
+# @blueprint.route('/jobs')
+# @login_required
+# def job():
+#     # Retrieve job listings from the database
+#     job_listings = Job_listings.query.all()
+#     print(job_listings)
+#     return render_template('/user/jobs.html', jobListings=job_listings)
 
 
 @blueprint.route('/description')

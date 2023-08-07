@@ -35,7 +35,7 @@ def index():
 @blueprint.route('/available-internships')
 @login_required
 def intern_available():
-    fields = ["COMPANY", "INTERNSIP", "CATEGORY", "DEADLINE"]
+    fields = ["COMPANY", "INTERNSHIP", "CATEGORY", "DEADLINE"]
     segment = 'available-internships'
     internships = Internships.query.all()
     return render_template('home/available-internships.html', segment=segment, internships=internships, field=fields)

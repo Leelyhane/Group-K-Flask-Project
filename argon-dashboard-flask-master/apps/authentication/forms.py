@@ -37,33 +37,32 @@ class JobListings(FlaskForm):
     job_category = TextField(validators=[DataRequired()])
     company = TextField(validators=[DataRequired()])
     company_logo = FileField(validators=[
-        FileRequired(),  # Ensure a file is uploaded
         # Limit allowed file types
         FileAllowed(['jpg', 'png', 'jpeg', 'gif'], 'Images only!')
         # Add more validators based on your specific criteria (e.g., FileSize, Dimensions, AspectRatio)
     ])
     location = TextField(validators=[DataRequired()])
     # URL validator for company URL
-    company_url = StringField(validators=[DataRequired(), URL()])
+    company_url = StringField(validators=[URL()])
     job_description = TextAreaField(validators=[DataRequired()], render_kw={
         "class": "description"})  # Use TextAreaField for description
     application_deadline = DateTimeField(
         validators=[DataRequired()], format='%Y-%m-%dT%H:%M')
 
 
-class Internships(FlaskForm):
+class Internship(FlaskForm):
     intern_name = TextField(validators=[DataRequired()])
     job_category = TextField(validators=[DataRequired()])
     company = TextField(validators=[DataRequired()])
     company_logo = FileField(validators=[
-        FileRequired(),  # Ensure a file is uploaded
+        # Ensure a file is uploaded
         # Limit allowed file types
         FileAllowed(['jpg', 'png', 'jpeg', 'gif'], 'Images only!')
         # Add more validators based on your specific criteria (e.g., FileSize, Dimensions, AspectRatio)
     ])
     location = TextField(validators=[DataRequired()])
     # URL validator for company URL
-    company_url = StringField(validators=[DataRequired(), URL()])
+    company_url = StringField(validators=[URL()])
     internship_description = TextAreaField(validators=[DataRequired()], render_kw={
         "class": "description"})  # Use TextAreaField for description
     application_deadline = DateTimeField(

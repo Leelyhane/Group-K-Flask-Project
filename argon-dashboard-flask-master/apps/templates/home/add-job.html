@@ -38,8 +38,7 @@
           </div>
         </div>
         <div class="card-body">
-          <form method="post" role="form" action="/add-job" enctype="multipart/form-data">
-            {{ form.hidden_tag() }}
+          <form method="post" action="/add-job" enctype="multipart/form-data">
             <h6 class="heading-small text-muted mb-4">Job information</h6>
             <div class="pl-lg-4">
               <div class="row">
@@ -95,7 +94,7 @@
               <div class="col-lg-6">
                 <div class="form-group">
                   <label class="form-control-label" for="job_category">Application Deadline</label>
-                  <input type="datetime-local" id="application_deadline" name="application_deadline" class="form-control" placeholder="Deadline">
+                  <input type="date" id="application_deadline" name="application_deadline" class="form-control" placeholder="Deadline">
                 </div>
               </div>
             </div>
@@ -104,7 +103,7 @@
             <h6 class="heading-small text-muted mb-4">Job Description (Include the Prerequisites/ Requirements one must have and Include in the resume submission!)</h6>
             <div class="pl-lg-4">
               <div class="form-group">
-                <textarea rows="4" class="form-control description" name="description" placeholder="Job Description">{{ form.description }}</textarea>
+                <textarea rows="4" class="form-control description" name="description" placeholder="Job Description">{{ description }}</textarea>
               </div>
             </div>
             <div class="text-center">

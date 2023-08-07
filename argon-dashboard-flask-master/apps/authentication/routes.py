@@ -9,9 +9,10 @@ from functools import wraps
 
 from apps import db, login_manager
 from apps.authentication import blueprint
-from apps.authentication.forms import LoginForm, CreateAccountForm, JobListings, Internships, SubmitInternResume, SubmitJobResume
+from apps.authentication.forms import LoginForm, CreateAccountForm, JobListings, Internship, SubmitInternResume, SubmitJobResume
 from apps.authentication.models import Users, Job_listings, Internships, Job_resumes, Intern_resumes
-
+# Import the 'home_blueprint' instance
+from apps.home import blueprint as home_blueprint
 from apps.authentication.util import verify_pass
 
 
@@ -113,87 +114,104 @@ def logout():
 
 @blueprint.route('/add-job', methods=['POST', 'GET'])
 def add_job():
-    form = JobListings(request.form)
 
-    if request.method == "POST" and form.validate():
-        # Get the form data submitted by the admin
-        job_name = form.job_name.data
-        company_name = form.company.data
-        job_description = form.job_description.data
-        job_category = form.job_category.data
-        location = form.location.data
-        application_deadline = form.application_deadline.data
-        company_logo = form.company_logo.data
-        company_url = form.company_url.data
+    if request.method == "POST":
+        job_name = request.form.get('job_name')
+        company_name = request.form.get('company')
+        job_description = request.form.get('description')
+        job_category = request.form.get('job_category')
+        location = request.form.get('location')
+        application_deadline = request.form.get('application_deadline')
+        company_logo = request.files.get('company_logo')
+        company_url = request.form.get('company_url')
 
-        # Convert Date Strings to Python date objects
+        if not job_name or not company_name or not job_description or not job_category:
+            return "Error: Please fill in all required fields.", 400
+
+      # Convert Date Strings to Python date objects
         from datetime import datetime
-        deadline = datetime.strptime(application_deadline, '%Y-%m-%d').date()
+        try:
+            deadline = datetime.strptime(
+                application_deadline, '%Y-%m-%d').date()
+        except ValueError:
+            return "Error: Invalid date format for application deadline.", 400
 
-        # Insert the job listing details into the database
+            # Insert the job listing details into the database
         job_listing = Job_listings(
             job_name=job_name,
             company=company_name,
-            description=job_description,
+            desription=job_description,
             location=location,
             job_type=job_category,
             application_deadline=deadline,
-            company_logo=company_logo,
+            company_logo=company_logo.read() if company_logo else None,
             company_url=company_url
         )
+
         db.session.add(job_listing)
         db.session.commit()
-
+        print("Data added successfully.")
         # Redirect to the available jobs page after successful submission
-        return redirect(url_for('home_blueprint.available-jobs'))
+        segment = 'available-jobs'
+        field = ["COMPANY", "JOB", "CATEGORY", "DEADLINE"]
+        job_listings = Job_listings.query.all()
+        return render_template('/home/available-jobs.html', segment=segment, field= field, job_listings=job_listings)
 
     segment = 'add-job'
 
     # For GET requests or invalid form submissions, render the add_job.html template with the form
-    return render_template('/home/add-job.html', form=form, segment=segment)
+    return render_template('/home/add-job.html', segment=segment)
 
 
 @blueprint.route('/add-intern', methods=['POST', 'GET'])
-def add_internship():
-    form = Internships(request.form)
+def add_intern():
+  
+    if request.method == "POST":
+        intern_name = request.form.get('intern_name')
+        company_name = request.form.get('company')
+        internship_description = request.form.get('description')
+        job_category = request.form.get('job_category')
+        location = request.form.get('location')
+        application_deadline = request.form.get('application_deadline')
+        company_logo = request.files.get('company_logo')
+        company_url = request.form.get('company_url')
 
-    if request.method == "POST" and form.validate():
-        # Get the form data submitted by the admin
-        job_name = form.intern_name.data
-        company_name = form.company.data
-        internship_description = form.internship_description.data
-        job_category = form.job_category.data
-        location = form.location.data
-        application_deadline = form.application_deadline.data
-        logo = form.company_logo.data
-        url = form.company_url.data
+        if not intern_name or not company_name or not internship_description or not job_category:
+            return "Error: Please fill in all required fields.", 400
 
-        # Convert Date Strings to Python date objects
+      # Convert Date Strings to Python date objects
         from datetime import datetime
-        deadline = datetime.strptime(application_deadline, '%Y-%m-%d').date()
+        try:
+            deadline = datetime.strptime(
+                application_deadline, '%Y-%m-%d').date()
+        except ValueError:
+            return "Error: Invalid date format for application deadline.", 400
 
-        # Insert the internship details into the database
+            # Insert the job listing details into the database
         internship = Internships(
-            job_name=job_name,
-            company_name=company_name,
-            job_description=internship_description,
+            job_name=intern_name,
+            company=company_name,
+            desription=internship_description,
+            location=location,
             job_type=job_category,
-            locaion=location,
             application_deadline=deadline,
-            company_logo=logo,
-            company_url=url
+            company_logo=company_logo.read() if company_logo else None,
+            company_url=company_url
         )
+
         db.session.add(internship)
         db.session.commit()
-
-        # Redirect to the available internships page after successful submission
-        return redirect(url_for('home_blueprint.available-internships'))
+        print("Data added successfully.")
+        # Redirect to the available jobs page after successful submission
+        segment = 'available-internships'
+        field = ["COMPANY", "INTERNSHIP", "CATEGORY", "DEADLINE"]
+        internships = Internships.query.all()
+        return render_template('/home/available-internships.html', segment=segment, field= field, internships= internships)
 
     segment = 'add-intern'
 
-    # For GET requests or invalid form submissions, render the add_intern.html template with the form
-    return render_template('/home/add-intern.html', form=form, segment=segment)
-
+    # For GET requests or invalid form submissions, render the add_job.html template with the form
+    return render_template('/home/add-intern.html', segment=segment)
 
 @blueprint.route('/job-resumes', methods=['GET', 'POST'])
 def submit_job_resume():
@@ -214,10 +232,10 @@ def submit_job_resume():
         # Redirect to a confirmation page after successful submission
         return render_template('/home/available-jobs.html')
 
-    segment = 'job-resumes'
-
     # For GET requests or invalid form submissions, render the submit_job_resume.html template with the form
-    return render_template('/home/job-resumes.html', form=form, segment=segment)
+    segment = 'job-resumes'
+    fields = ["JOB_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
+    return render_template('/home/job-resumes.html', form=form, segment=segment, fields=fields)
 
 
 @blueprint.route('/intern-resumes', methods=['GET', 'POST'])
@@ -237,12 +255,44 @@ def submit_intern_resume():
         db.session.commit()
 
         # Redirect to a confirmation page after successful submission
-        return render_template('/home/available-jobs.html')
-
-    segment = 'intern-resumes'
+        return render_template('/home/available-jobs.html', flash='Internship Resumes')
 
     # For GET requests or invalid form submissions, render the submit_job_resume.html template with the form
-    return render_template('/home/intern-resumes.html', form=form, segment=segment)
+    segment = 'intern-resumes'
+    fields = ["JOB_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
+    return render_template('/home/intern-resumes.html', form=form, segment=segment, fields=fields)
+
+# Users Routes
+
+@blueprint.route('/indexx')
+def indexx():
+    # Retrieve job listings from the database
+    job_listings = Job_listings.query.all()
+    internships = Internships.query.all()
+    return render_template('/user/indexx.html', jobListings=job_listings, internships=internships)
+
+@blueprint.route('/internships')
+def internship():
+    # Retrieve job listings from the database
+    internships = Internships.query.all()
+    print(internships)
+    return render_template('/user/internships.html', internships=internships)
+
+@blueprint.route('/jobs')
+def job():
+    # Retrieve job listings from the database
+    job_listings = Job_listings.query.all()
+    print(job_listings)
+    return render_template('/user/jobs.html', jobListings=job_listings)
+
+
+@blueprint.route('/index1')
+def index1():
+    # Retrieve job listings from the database
+    job_listings = Job_listings.query.all()
+    print(job_listings)
+    return render_template('/user/index1.html', jobListings=job_listings)
+
 
 # Errors
 

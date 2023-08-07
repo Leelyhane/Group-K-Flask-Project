@@ -43,6 +43,7 @@ def upgrade():
     sa.Column('company_url', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('job_id'),
     sa.UniqueConstraint('job_id')
+    
     )
     op.create_table('Users',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -76,6 +77,10 @@ def upgrade():
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('resume_id')
     )
+    op.alter_column('job_listings', 'company_logo', type_=sa.String(255))
+    op.alter_column('Internships', 'company_logo', type_=sa.String(255))
+
+
     # ### end Alembic commands ###
 
 
