@@ -124,8 +124,7 @@ def add_job():
 
         if not job_name or not company_name or not job_description or not job_category:
             return "Error: Please fill in all required fields.", 400
-        
-        
+
         company_logo_data = company_logo.read() if company_logo else None
         company_logo_base64 = None
 
@@ -166,16 +165,17 @@ def add_job():
     # For GET requests or invalid form submissions, render the add_job.html template with the form
     return render_template('/home/add-job.html', segment=segment)
 
+
 @blueprint.route('/remove-job/<int:job_id>',  methods=['GET', 'POST'])
 def delete_job(job_id):
     job_listing = Job_listings.query.get(job_id)
     segment = 'add-job'
-    #field = ["COMPANY", "JOB", "CATEGORY", "DEADLINE"]
+    # field = ["COMPANY", "JOB", "CATEGORY", "DEADLINE"]
     if job_listing:
         db.session.delete(job_listing)
         db.session.commit()
-    
-    return render_template('/home/add-job.html',segment=segment)
+
+    return render_template('/home/add-job.html', segment=segment)
 
 
 @blueprint.route('/add-intern', methods=['POST', 'GET'])
@@ -193,8 +193,7 @@ def add_intern():
 
         if not intern_name or not company_name or not internship_description or not job_category:
             return "Error: Please fill in all required fields.", 400
-        
-        
+
         company_logo_data = company_logo.read() if company_logo else None
         company_logo_base64 = None
 

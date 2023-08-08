@@ -10,7 +10,6 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 # login and registration
 
-
 class LoginForm(FlaskForm):
     username = TextField('Username',
                          id='username_login',
