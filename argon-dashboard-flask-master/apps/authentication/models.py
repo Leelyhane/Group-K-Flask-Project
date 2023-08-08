@@ -103,7 +103,7 @@ class Job_resumes(db.Model, UserMixin):
     resume_id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(64))
     email = db.Column(db.String(64), unique=True)
-    resume_file = db.Column(db.LargeBinary)
+    resume_file = db.Column(db.String(255))
     job_id = db.Column(db.Integer, ForeignKey('Job_listings.job_id'))
     resume = relationship('Job_listings', backref='Job_resumes', lazy=True)
 
@@ -127,7 +127,7 @@ class Intern_resumes(db.Model, UserMixin):
     resume_id = db.Column(db.Integer, primary_key=True, unique=True)
     name = db.Column(db.String(64))
     email = db.Column(db.String(64), unique=True)
-    resume_file = db.Column(db.LargeBinary)
+    resume_file = db.Column(db.String(255))
     intern_id = db.Column(db.Integer, ForeignKey('Internships.intern_id'))
     resume = relationship('Internships', backref='intern_resumes', lazy=True)
 
