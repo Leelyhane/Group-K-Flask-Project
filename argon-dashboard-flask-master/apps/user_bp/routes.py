@@ -54,14 +54,14 @@ def sign_in():
 #     return render_template('/user/jobs.html', jobListings=job_listings)
 
 
-@blueprint.route('/description')
-@login_required
-def description():
-    # Retrieve job listings from the database
-    job_listings = Job_listings.query.all()
-    internships = Internships.query.all()
-    print(job_listings)
-    return render_template('/user/description.html', jobListings=job_listings, internships=internships)
+# @blueprint.route('/description')
+# @login_required
+# def description():
+#     # Retrieve job listings from the database
+#     job_listings = Job_listings.query.all()
+#     internships = Internships.query.all()
+#     print(job_listings)
+#     return render_template('/user/description.html', jobListings=job_listings, internships=internships)
 
 
 @blueprint.route('/team')
