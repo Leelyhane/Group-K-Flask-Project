@@ -1,4 +1,7 @@
-from flask import Flask, render_template, request, redirect, url_for
+# -*- encoding: utf-8 -*-
+"""
+Copyright (c) 2019 - present AppSeed.us
+"""
 from flask import render_template, redirect, request, url_for, flash
 from flask_login import (
     current_user,
