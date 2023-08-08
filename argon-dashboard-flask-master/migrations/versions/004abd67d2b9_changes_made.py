@@ -1,8 +1,8 @@
-""" Migration
+"""Changes Made
 
-Revision ID: a39ebed1472e
+Revision ID: 004abd67d2b9
 Revises: 
-Create Date: 2023-08-01 13:45:46.875136
+Create Date: 2023-08-08 14:37:00.769348
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'a39ebed1472e'
+revision = '004abd67d2b9'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,7 +23,7 @@ def upgrade():
     sa.Column('job_type', sa.String(length=64), nullable=True),
     sa.Column('intern_name', sa.String(length=64), nullable=True),
     sa.Column('company', sa.String(length=64), nullable=True),
-    sa.Column('company_logo', sa.LargeBinary(), nullable=True),
+    sa.Column('company_logo', sa.String(length=255), nullable=True),
     sa.Column('locaion', sa.String(length=64), nullable=True),
     sa.Column('description', sa.String(length=255), nullable=True),
     sa.Column('application_deadline', sa.DateTime(), nullable=True),
@@ -36,14 +36,13 @@ def upgrade():
     sa.Column('job_type', sa.String(length=64), nullable=True),
     sa.Column('job_name', sa.String(length=64), nullable=True),
     sa.Column('company', sa.String(length=64), nullable=True),
-    sa.Column('company_logo', sa.LargeBinary(), nullable=True),
+    sa.Column('company_logo', sa.String(length=255), nullable=True),
     sa.Column('location', sa.String(length=64), nullable=True),
     sa.Column('desription', sa.String(length=255), nullable=True),
     sa.Column('application_deadline', sa.DateTime(), nullable=True),
     sa.Column('company_url', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('job_id'),
     sa.UniqueConstraint('job_id')
-    
     )
     op.create_table('Users',
     sa.Column('id', sa.Integer(), nullable=False),
@@ -59,7 +58,7 @@ def upgrade():
     sa.Column('resume_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('email', sa.String(length=64), nullable=True),
-    sa.Column('resume_file', sa.LargeBinary(), nullable=True),
+    sa.Column('resume_file', sa.String(length=255), nullable=True),
     sa.Column('intern_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['intern_id'], ['Internships.intern_id'], ),
     sa.PrimaryKeyConstraint('resume_id'),
@@ -70,17 +69,13 @@ def upgrade():
     sa.Column('resume_id', sa.Integer(), nullable=False),
     sa.Column('name', sa.String(length=64), nullable=True),
     sa.Column('email', sa.String(length=64), nullable=True),
-    sa.Column('resume_file', sa.LargeBinary(), nullable=True),
+    sa.Column('resume_file', sa.String(length=255), nullable=True),
     sa.Column('job_id', sa.Integer(), nullable=True),
     sa.ForeignKeyConstraint(['job_id'], ['Job_listings.job_id'], ),
     sa.PrimaryKeyConstraint('resume_id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('resume_id')
     )
-    op.alter_column('job_listings', 'company_logo', type_=sa.String(255))
-    op.alter_column('Internships', 'company_logo', type_=sa.String(255))
-
-
     # ### end Alembic commands ###
 
 
