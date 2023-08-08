@@ -282,7 +282,6 @@ def internship():
 def job():
     # Retrieve job listings from the database
     job_listings = Job_listings.query.all()
-    print(job_listings)
     return render_template('/user/jobs.html', jobListings=job_listings)
 
 
@@ -292,6 +291,13 @@ def index1():
     job_listings = Job_listings.query.all()
     print(job_listings)
     return render_template('/user/index1.html', jobListings=job_listings)
+
+@blueprint.route('/job-description/<int:job_id>')
+def description(job_id):
+    # Retrieve the specific job details from the database based on job_id
+    job_details = Job_listings.query.get(job_id)
+    return render_template('/user/job-description.html', job_details=job_details)
+
 
 
 # Errors
