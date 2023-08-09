@@ -9,7 +9,7 @@
     <meta content="" name="description">
 
     <!-- Favicon -->
-    <link href="{{ url_for('static', filename='user/img/favicon.ico') }}" rel="icon">
+    <link href="{{ url_for('static', filename='user/img/favicon1.ico') }}" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,7 +48,7 @@
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top px-4 px-lg-5">
         <a href="/index1" class="navbar-brand d-flex align-items-center">
-            <h1 class="m-0"><img class="img-fluid me-3" src="{{ url_for('static', filename='user/img/icon/icon-02-primary.png') }}" alt="">Career Bridge</h1>
+            <h1 class="m-0"><img class="img-fluid me-3" src="{{ url_for('static', filename='user/img/career2.png') }}" alt="">Career Bridge</h1>
         </a>
         <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
             <span class="navbar-toggler-icon"></span>
@@ -92,7 +92,10 @@
             </div>
         </div>
     </div>
-    <a class="btn btn-primary py-3 px-5" href="/submit-job-resume/{{job_details.job_id}}">Apply</a>
+    <div class="col-12">
+        <a class="btn btn-primary py-3 px-5" href="/submit-job-resume/{{job_details.job_id}}">Apply</a>
+    </div>
+    
     <!-- Contact End -->
 
 
