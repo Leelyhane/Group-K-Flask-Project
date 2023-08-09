@@ -49,7 +49,7 @@ class Job_listings(db.Model, UserMixin):
     company_logo = db.Column(db.String(255))
     location = db.Column(db.String(64))
     desription = db.Column(db.String(255))
-    application_deadline = db.Column(db.DateTime())
+    application_deadline = db.Column(db.Date())
     company_url = db.Column(db.String(255))
 
     def __init__(self, **kwargs):
@@ -78,7 +78,7 @@ class Internships(db.Model, UserMixin):
     company_logo = db.Column(db.String(255))
     locaion = db.Column(db.String(64))
     description = db.Column(db.String(255))
-    application_deadline = db.Column(db.DateTime())
+    application_deadline = db.Column(db.Date())
     company_url = db.Column(db.String(255))
 
     def __init__(self, **kwargs):
@@ -104,8 +104,7 @@ class Job_resumes(db.Model, UserMixin):
     name = db.Column(db.String(64))
     email = db.Column(db.String(64), unique=True)
     resume_file = db.Column(db.String(255))
-    job_id = db.Column(db.Integer, ForeignKey('Job_listings.job_id'))
-    resume = relationship('Job_listings', backref='Job_resumes', lazy=True)
+    job_id = db.Column(db.Integer)
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():
@@ -128,8 +127,7 @@ class Intern_resumes(db.Model, UserMixin):
     name = db.Column(db.String(64))
     email = db.Column(db.String(64), unique=True)
     resume_file = db.Column(db.String(255))
-    intern_id = db.Column(db.Integer, ForeignKey('Internships.intern_id'))
-    resume = relationship('Internships', backref='intern_resumes', lazy=True)
+    intern_id = db.Column(db.Integer)
 
     def __init__(self, **kwargs):
         for property, value in kwargs.items():

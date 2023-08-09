@@ -10,6 +10,8 @@ from flask_login import (
     logout_user
 )
 from functools import wraps
+from werkzeug.utils import secure_filename
+import os
 
 from apps import db, login_manager
 from apps.authentication import blueprint
@@ -169,13 +171,10 @@ def add_job():
 @blueprint.route('/remove-job/<int:job_id>',  methods=['GET', 'POST'])
 def delete_job(job_id):
     job_listing = Job_listings.query.get(job_id)
-    segment = 'add-job'
-    # field = ["COMPANY", "JOB", "CATEGORY", "DEADLINE"]
     if job_listing:
         db.session.delete(job_listing)
         db.session.commit()
-
-    return render_template('/home/add-job.html', segment=segment)
+    return redirect(request.referrer)
 
 
 @blueprint.route('/add-intern', methods=['POST', 'GET'])
@@ -234,55 +233,79 @@ def add_intern():
     # For GET requests or invalid form submissions, render the add_job.html template with the form
     return render_template('/home/add-intern.html', segment=segment)
 
-
-@blueprint.route('/job-resumes', methods=['GET', 'POST'])
-def submit_job_resume():
-    form = SubmitJobResume()
-
-    if form.validate_on_submit():
-        # If the form is successfully submitted and validated, you can process the data here
-        name = form.name.data
-        email = form.email.data
-        resume_file = form.resume_file.data
-
-        # Create a new JobResume instance and save the data to the database
-        job_resume = Job_resumes(
-            name=name, email=email, resume_file=resume_file)
-        db.session.add(job_resume)
+# Remove Internships from the list of available internships
+@blueprint.route('/remove-intern/<int:intern_id>',  methods=['GET', 'POST'])
+def delete_intern(intern_id):
+    intern = Internships.query.get(intern_id)
+    if intern:
+        db.session.delete(intern)
         db.session.commit()
+    return redirect(request.referrer)
 
+ALLOWED_EXTENSIONS = {'pdf'}
+MAX_FILE_SIZE = 5 * 1024 * 1024  # 5 MB
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def validate_file_size(file):
+    return file.content_length <= MAX_FILE_SIZE
+
+@blueprint.route('/submit_resume', methods=['GET', 'POST'])
+def submit_job_resume():
+
+    if request.method == 'POST':
+        print("Received form data:", request.form)
+        # If the form is successfully submitted and validated, you can process the data here
+        job_id = request.form.get('job_id')
+        name = request.form.get('name')
+        email = request.form.get('email')
+        resume_file = request.files.get('resume_file')
+
+        
+        if not job_id or not name or not email or not resume_file:
+            flash('Please fill in all required fields.')
+            return redirect(request.referrer)  # Redirect back to the previous page
+
+        if 'resume_file' not in request.files or resume_file.filename == '':
+            return 'No file selected', 400
+        
+        if not os.path.exists('uploads'):
+           os.makedirs('uploads')
+
+        if resume_file and allowed_file(resume_file.filename) and validate_file_size(resume_file):
+            filename = secure_filename(resume_file.filename)
+            resume_file.save(os.path.join('uploads', filename)) 
+             
+            job_resume = Job_resumes(
+                job_id=job_id,
+                name=name, email=email, resume_file=filename
+            )
+            db.session.add(job_resume)
+            db.session.commit()
+            flash('success')
+            return render_template('/user/index1.html', flash=flash) 
+        
+        flash('Application Sent Successfully')
         # Redirect to a confirmation page after successful submission
-        return render_template('/home/available-jobs.html')
+        return render_template('/user/index1.html', flash=flash)
+
+    # For GET requests or invalid form submissions, render the submit_job_resume.html template with the form
+
+    return render_template('/user/jobs.html')
+
+
+@blueprint.route('/job-resumes')
+def submitted_job_resume():
+ 
+    job_resume = Job_resumes.query.all()
 
     # For GET requests or invalid form submissions, render the submit_job_resume.html template with the form
     segment = 'job-resumes'
     fields = ["JOB_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
-    return render_template('/home/job-resumes.html', form=form, segment=segment, fields=fields)
+    return render_template('/home/job-resumes.html', segment=segment, fields=fields, job_resume = job_resume)
 
 
-@blueprint.route('/intern-resumes', methods=['GET', 'POST'])
-def submit_intern_resume():
-    form = SubmitInternResume()
-
-    if form.validate_on_submit():
-        # If the form is successfully submitted and validated, you can process the data here
-        name = form.name.data
-        email = form.email.data
-        resume_file = form.resume_file.data
-
-        # Create a new JobResume instance and save the data to the database
-        job_resume = Intern_resumes(
-            name=name, email=email, resume_file=resume_file)
-        db.session.add(job_resume)
-        db.session.commit()
-
-        # Redirect to a confirmation page after successful submission
-        return render_template('/home/available-jobs.html', flash='Internship Resumes')
-
-    # For GET requests or invalid form submissions, render the submit_job_resume.html template with the form
-    segment = 'intern-resumes'
-    fields = ["JOB_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
-    return render_template('/home/intern-resumes.html', form=form, segment=segment, fields=fields)
 
 # Users Routes
 
@@ -319,23 +342,23 @@ def index1():
 
 
 @blueprint.route('/job-description/<int:job_id>')
-def description(job_id):
+def job_description(job_id):
     # Retrieve the specific job details from the database based on job_id
     job_details = Job_listings.query.get(job_id)
     return render_template('/user/job-description.html', job_details=job_details)
 
 
 @blueprint.route('/intern-description/<int:intern_id>')
-def resume(intern_id):
+def intern_description(intern_id):
     # Retrieve the specific job details from the database based on job_id
     intern_details = Internships.query.get(intern_id)
     return render_template('/user/intern-description.html', intern_details=intern_details)
 
-# @blueprint.route('/job-description/<int:job_id>')
-# def description(job_id):
-#     # Retrieve the specific job details from the database based on job_id
-#     job_details = Job_listings.query.get(job_id)
-#     return render_template('/user/job-description.html', job_details=job_details)
+@blueprint.route('/submit-job-resume/<int:job_id>')
+def job_resume(job_id):
+    # Retrieve the specific job details from the database based on job_id
+    job_details = Job_listings.query.get(job_id)
+    return render_template('/user/submit_job_resume.html', job_details=job_details)
 
 
 # Errors
