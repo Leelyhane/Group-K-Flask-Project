@@ -1,6 +1,6 @@
 # [Argon Dashboard Flask](https://www.creative-tim.com/product/argon-dashboard-flask) [![Tweet](https://img.shields.io/twitter/url/http/shields.io.svg?style=social&logo=twitter)](https://twitter.com/home?status=Material%20Dashboard,%20a%20free%20Material%20Bootstrap%204%20Admin%20Template%20%E2%9D%A4%EF%B8%8F%20https%3A//bit.ly/2Lyat1Y%20%23bootstrap%20%23material%20%23design%20%23developers%20%23freebie%20%20via%20%40CreativeTim)
 
- ![version](https://img.shields.io/badge/version-1.0.1-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/argon-dashboard-flask.svg?maxAge=2592000)](https://github.com/creativetimofficial/argon-dashboard-flask/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimoffici==al/argon-dashboard-flask.svg?maxAge=2592000)](https://github.com/creativetimofficial/argon-dashboard-flask/issues?q=is%3Aissue+is%3Aclosed) [![Join the chat at https://gitter.im/NIT-dgp/General](https://badges.gitter.im/NIT-dgp/General.svg)](https://gitter.im/creative-tim-general/Lobby) [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
+![version](https://img.shields.io/badge/version-1.0.1-blue.svg) [![GitHub issues open](https://img.shields.io/github/issues/creativetimofficial/argon-dashboard-flask.svg?maxAge=2592000)](https://github.com/creativetimofficial/argon-dashboard-flask/issues?q=is%3Aopen+is%3Aissue) [![GitHub issues closed](https://img.shields.io/github/issues-closed-raw/creativetimoffici==al/argon-dashboard-flask.svg?maxAge=2592000)](https://github.com/creativetimofficial/argon-dashboard-flask/issues?q=is%3Aissue+is%3Aclosed) [![Join the chat at https://gitter.im/NIT-dgp/General](https://badges.gitter.im/NIT-dgp/General.svg)](https://gitter.im/creative-tim-general/Lobby) [![Chat](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/E4aHAQy)
 
 ![Argon Dashboard Flask - Admin Dashboard coded in Django.](https://github.com/creativetimofficial/argon-dashboard-flask/blob/master/media/argon-dashboard-flask-intro.gif)
 
@@ -23,23 +23,23 @@
 
 ## Table of Contents
 
-* [Demo](#demo)
-* [Docker Support](#docker-support)
-* [Quick Start](#quick-start)
-* [Documentation](#documentation)
-* [File Structure](#file-structure)
-* [Browser Support](#browser-support)
-* [Resources](#resources)
-* [Reporting Issues](#reporting-issues)
-* [Technical Support or Questions](#technical-support-or-questions)
-* [Licensing](#licensing)
-* [Useful Links](#useful-links)
+- [Demo](#demo)
+- [Docker Support](#docker-support)
+- [Quick Start](#quick-start)
+- [Documentation](#documentation)
+- [File Structure](#file-structure)
+- [Browser Support](#browser-support)
+- [Resources](#resources)
+- [Reporting Issues](#reporting-issues)
+- [Technical Support or Questions](#technical-support-or-questions)
+- [Licensing](#licensing)
+- [Useful Links](#useful-links)
 
 <br />
 
 ## Demo
 
-> To authenticate use the default credentials ***test / pass*** or create a new user on the [registration page](https://www.creative-tim.com/live/argon-dashboard-flask).
+> To authenticate use the default credentials **_test / pass_** or create a new user on the [registration page](https://www.creative-tim.com/live/argon-dashboard-flask).
 
 - **Argon Dashboard Flask** [Login Page](https://www.creative-tim.com/live/argon-dashboard-flask)
 
@@ -57,9 +57,9 @@ $ cd argon-dashboard-flask
 > Start the app in Docker
 
 ```bash
-$ docker-compose pull   # download dependencies 
+$ docker-compose pull   # download dependencies
 $ docker-compose build  # local set up
-$ docker-compose up -d  # start the app 
+$ docker-compose up -d  # start the app
 ```
 
 Visit `http://localhost:85` in your browser. The app should be up & running.
@@ -101,7 +101,7 @@ $ # (Powershell) $env:FLASK_ENV = "development"
 $
 $ # Start the application (development mode)
 $ # --host=0.0.0.0 - expose the app on all network interfaces (default 127.0.0.1)
-$ # --port=5000    - specify the app port (default 5000)  
+$ # --port=5000    - specify the app port (default 5000)
 $ flask run --host=0.0.0.0 --port=5000
 $
 $ # Access the dashboard in browser: http://127.0.0.1:5000/
@@ -112,11 +112,13 @@ $ # Access the dashboard in browser: http://127.0.0.1:5000/
 <br />
 
 ## Documentation
+
 The documentation for the **Argon Dashboard Flask** is hosted at our [website](https://demos.creative-tim.com/argon-dashboard-flask/docs/1.0/getting-started/getting-started-flask.html).
 
 <br />
 
 ## File Structure
+
 Within the download you'll find the following directories and files:
 
 ```bash
@@ -128,9 +130,9 @@ Within the download you'll find the following directories and files:
    |    |    |-- routes.py                 # Define app routes
    |    |
    |    |-- authentication/                # Handles auth routes (login and register)
-   |    |    |-- routes.py                 # Define authentication routes  
-   |    |    |-- models.py                 # Defines models  
-   |    |    |-- forms.py                  # Define auth forms (login and register) 
+   |    |    |-- routes.py                 # Define authentication routes
+   |    |    |-- models.py                 # Defines models
+   |    |    |-- forms.py                  # Define auth forms (login and register)
    |    |
    |    |-- static/
    |    |    |-- <css, JS, images>         # CSS files, Javascripts files
@@ -154,7 +156,7 @@ Within the download you'll find the following directories and files:
    |    |         |-- index.html            # Index page
    |    |         |-- 404-page.html         # 404 page
    |    |         |-- *.html                # All other pages
-   |    |    
+   |    |
    |  config.py                             # Set up the app
    |    __init__.py                         # Initialize the app
    |
@@ -164,9 +166,9 @@ Within the download you'll find the following directories and files:
    |
    |-- Dockerfile                           # Deployment
    |-- docker-compose.yml                   # Deployment
-   |-- gunicorn-cfg.py                      # Deployment   
+   |-- gunicorn-cfg.py                      # Deployment
    |-- nginx                                # Deployment
-   |    |-- appseed-app.conf                # Deployment 
+   |    |-- appseed-app.conf                # Deployment
    |
    |-- .env                                 # Inject Configuration via Environment
    |-- run.py                               # Start the app - WSGI gateway
@@ -179,12 +181,12 @@ Within the download you'll find the following directories and files:
 > The bootstrap flow
 
 - `run.py` loads the `.env` file
-- Initialize the app using the specified profile: *Debug* or *Production*
-  - If env.DEBUG is set to *True* the SQLite storage is used
-  - If env.DEBUG is set to *False* the specified DB driver is used (MySql, PostgreSQL)
-- Call the app factory method `create_app` defined in app/__init__.py
+- Initialize the app using the specified profile: _Debug_ or _Production_
+  - If env.DEBUG is set to _True_ the SQLite storage is used
+  - If env.DEBUG is set to _False_ the specified DB driver is used (MySql, PostgreSQL)
+- Call the app factory method `create_app` defined in app/**init**.py
 - Redirect the guest users to Login page
-- Unlock the pages served by *home* blueprint for authenticated users
+- Unlock the pages served by _home_ blueprint for authenticated users
 
 <br />
 
@@ -197,9 +199,9 @@ To recompile SCSS files, follow this setup:
 **Step #1** - Install tools
 
 - [NodeJS](https://nodejs.org/en/) 12.x or higher
-- [Gulp](https://gulpjs.com/) - globally 
-    - `npm install -g gulp-cli`
-- [Yarn](https://yarnpkg.com/) (optional) 
+- [Gulp](https://gulpjs.com/) - globally
+  - `npm install -g gulp-cli`
+- [Yarn](https://yarnpkg.com/) (optional)
 
 <br />
 
@@ -221,7 +223,7 @@ $ yarn
 
 <br />
 
-**Step #4** - Edit & Recompile SCSS files 
+**Step #4** - Edit & Recompile SCSS files
 
 ```bash
 $ gulp scss
@@ -292,4 +294,5 @@ If you have questions or need help integrating the product please [contact us](h
 <br />
 
 ---
+
 [Argon Dashboard Flask](https://www.creative-tim.com/product/argon-dashboard-flask) - Provided by [Creative Tim](https://www.creative-tim.com/) and [AppSeed](https://appseed.us)
