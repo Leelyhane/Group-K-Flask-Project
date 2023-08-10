@@ -200,14 +200,14 @@ a
 {
     text-decoration: none;
 
-    color: #007bff;
+    color: #9cc4f0;
     background-color: transparent;
 }
 a:hover
 {
     text-decoration: underline; 
 
-    color: #0056b3;
+    color: #3095bd;
 }
 
 a:not([href])

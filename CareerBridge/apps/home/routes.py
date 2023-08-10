@@ -7,7 +7,7 @@ from apps.home import blueprint
 from flask import render_template, request
 from flask_login import login_required
 from jinja2 import TemplateNotFound
-from apps.authentication.models import Users, Job_listings, Internships, Job_resumes, Intern_resumes
+from apps.authentication.models import Job_listings, Internships
 
 
 @blueprint.route('/available-jobs')
@@ -18,18 +18,6 @@ def index():
     return render_template('home/available-jobs.html', segment='available-jobs', field=field, job_listings=job_listings)
 
 
-# @blueprint.route('/add-intern')
-# @login_required
-# def intern():
-#     segment = 'add-intern'
-#     return render_template('home/add-intern.html', segment=segment)
-
-
-# @blueprint.route('/add-job')
-# @login_required
-# def job():
-#     segment = 'add-job'
-#     return render_template('home/add-job.html', segment=segment)
 
 
 @blueprint.route('/available-internships')
@@ -39,23 +27,6 @@ def intern_available():
     segment = 'available-internships'
     internships = Internships.query.all()
     return render_template('home/available-internships.html', segment=segment, internships=internships, field=fields)
-
-
-@blueprint.route('/job-resumes')
-@login_required
-def job_resume():
-    field = ["JOB_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
-    job_resume = Job_resumes.query.all()
-    segment = 'job-resumes'
-    return render_template('home/job-resumes.html', segment=segment, job_resume=job_resume, fields=field)
-
-
-@blueprint.route('/intern-resumes')
-@login_required
-def intern_resume():
-    columns = ["JOB_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
-    intern_resume = Intern_resumes.query.all()
-    return render_template('home/intern-resumes.html', segment='intern-resumes', intern_resume=intern_resume, fields=columns)
 
 
 @blueprint.route('/<template>')
