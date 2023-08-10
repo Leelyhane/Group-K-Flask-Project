@@ -1,8 +1,8 @@
-"""Remove foreign keys
+"""Changes Made
 
-Revision ID: 4f36c4f3382b
+Revision ID: e99b0f40aa33
 Revises: 
-Create Date: 2023-08-09 13:06:21.463716
+Create Date: 2023-08-10 10:38:54.573055
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '4f36c4f3382b'
+revision = 'e99b0f40aa33'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -36,7 +36,7 @@ def upgrade():
     sa.Column('company_logo', sa.String(length=255), nullable=True),
     sa.Column('locaion', sa.String(length=64), nullable=True),
     sa.Column('description', sa.String(length=255), nullable=True),
-    sa.Column('application_deadline', sa.DateTime(), nullable=True),
+    sa.Column('application_deadline', sa.Date(), nullable=True),
     sa.Column('company_url', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('intern_id'),
     sa.UniqueConstraint('intern_id')
@@ -49,7 +49,7 @@ def upgrade():
     sa.Column('company_logo', sa.String(length=255), nullable=True),
     sa.Column('location', sa.String(length=64), nullable=True),
     sa.Column('desription', sa.String(length=255), nullable=True),
-    sa.Column('application_deadline', sa.DateTime(), nullable=True),
+    sa.Column('application_deadline', sa.Date(), nullable=True),
     sa.Column('company_url', sa.String(length=255), nullable=True),
     sa.PrimaryKeyConstraint('job_id'),
     sa.UniqueConstraint('job_id')

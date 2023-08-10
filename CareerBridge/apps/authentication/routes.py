@@ -15,20 +15,18 @@ import os
 
 from apps import db, login_manager
 from apps.authentication import blueprint
-from apps.authentication.forms import LoginForm, CreateAccountForm, JobListings, Internship, SubmitInternResume, SubmitJobResume
+from apps.authentication.forms import LoginForm, CreateAccountForm
 from apps.authentication.models import Users, Job_listings, Internships, Job_resumes, Intern_resumes
-# Import the 'home_blueprint' instance
-from apps.home import blueprint as home_blueprint
 from apps.authentication.util import verify_pass
 
-
+# Landing Page Route.
 @blueprint.route('/')
 def route_default():
     return render_template('user/indexx.html')
 
-# Login & Registration
+# Login & Registration.
 
-
+# Login.
 @blueprint.route('/login', methods=['GET', 'POST'])
 def login():
     login_form = LoginForm(request.form)
@@ -66,7 +64,7 @@ def verify_password(password, hashed_password):
     # Compare the hashed password stored in the database with the provided password
     return True  # Replace this with the actual password verification implementation
 
-
+# Register.
 @blueprint.route('/register', methods=['GET', 'POST'])
 def register():
     create_account_form = CreateAccountForm(request.form)
@@ -104,16 +102,15 @@ def register():
     else:
         return render_template('accounts/register.html', form=create_account_form)
 
-
+# Logout.
 @blueprint.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('authentication_blueprint.login'))
 
-
+# Add Job Listing route.
 @blueprint.route('/add-job', methods=['POST', 'GET'])
 def add_job():
-
     if request.method == "POST":
         job_name = request.form.get('job_name')
         company_name = request.form.get('company')
@@ -124,9 +121,11 @@ def add_job():
         company_logo = request.files.get('company_logo')
         company_url = request.form.get('company_url')
 
+        # Validation of form Data.
         if not job_name or not company_name or not job_description or not job_category:
             return "Error: Please fill in all required fields.", 400
 
+        # Converting Logo to String.
         company_logo_data = company_logo.read() if company_logo else None
         company_logo_base64 = None
 
@@ -141,7 +140,7 @@ def add_job():
         except ValueError:
             return "Error: Invalid date format for application deadline.", 400
 
-            # Insert the job listing details into the database
+        # Insert the job listing details into the database
         job_listing = Job_listings(
             job_name=job_name,
             company=company_name,
@@ -151,8 +150,7 @@ def add_job():
             application_deadline=deadline,
             company_logo=company_logo_base64,
             company_url=company_url
-        )
-
+                     )
         db.session.add(job_listing)
         db.session.commit()
         print("Data added successfully.")
@@ -167,7 +165,7 @@ def add_job():
     # For GET requests or invalid form submissions, render the add_job.html template with the form
     return render_template('/home/add-job.html', segment=segment)
 
-
+# Removing a job Listing.
 @blueprint.route('/remove-job/<int:job_id>',  methods=['GET', 'POST'])
 def delete_job(job_id):
     job_listing = Job_listings.query.get(job_id)
@@ -176,10 +174,9 @@ def delete_job(job_id):
         db.session.commit()
     return redirect(request.referrer)
 
-
+#  Add internship route.
 @blueprint.route('/add-intern', methods=['POST', 'GET'])
 def add_intern():
-
     if request.method == "POST":
         intern_name = request.form.get('intern_name')
         company_name = request.form.get('company')
@@ -190,9 +187,11 @@ def add_intern():
         company_logo = request.files.get('company_logo')
         company_url = request.form.get('company_url')
 
+        # Validation of form Data.
         if not intern_name or not company_name or not internship_description or not job_category:
             return "Error: Please fill in all required fields.", 400
-
+        
+        # Converting Logo to String.
         company_logo_data = company_logo.read() if company_logo else None
         company_logo_base64 = None
 
@@ -217,7 +216,7 @@ def add_intern():
             application_deadline=deadline,
             company_logo=company_logo_base64,
             company_url=company_url
-        )
+            )
 
         db.session.add(internship)
         db.session.commit()
@@ -361,6 +360,14 @@ def submitted_intern_resume():
     segment = 'intern-resumes'
     fields = ["INTERN_ID", "APPLICANT NAME", "EMAIL", "RESUME FILE"]
     return render_template('/home/intern-resumes.html', segment=segment, fields=fields, intern_resume = intern_resume)
+
+# Downloading PDF Documents
+from flask import send_from_directory
+
+@blueprint.route('/download_resume/<filename>', methods=['GET'])
+def download_resume(filename):
+    directory_path = os.path.join('C:\\Users\\luswa\\Desktop\\Cloned Project\\Group-K-Flask-Project\\CareerBridge', 'uploads')
+    return send_from_directory(directory_path, filename=filename, as_attachment=True)
 
 
 

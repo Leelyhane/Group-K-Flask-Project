@@ -4,9 +4,6 @@ Copyright (c) 2019 - present AppSeed.us
 """
 from flask_login import UserMixin
 from apps import db, login_manager
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import relationship
-
 from apps.authentication.util import hash_pass
 
 
@@ -114,6 +111,7 @@ class Job_resumes(db.Model, UserMixin):
             if hasattr(value, '__iter__') and not isinstance(value, str):
                 # the ,= unpack of a singleton fails PEP8 (travis flake8 test)
                 value = value[0]
+            setattr(self, property, value)
 
     def __repr__(self):
         return str(self.name)
@@ -137,6 +135,8 @@ class Intern_resumes(db.Model, UserMixin):
             if hasattr(value, '__iter__') and not isinstance(value, str):
                 # the ,= unpack of a singleton fails PEP8 (travis flake8 test)
                 value = value[0]
+
+            setattr(self, property, value) 
 
     def __repr__(self):
         return str(self.name)
